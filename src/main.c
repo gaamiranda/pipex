@@ -73,8 +73,10 @@ void	exec(t_process *cmds, int in, int out, char **envp)
 		close(out);
 		if (execve(path, cmds->coms_array, envp) == -1)
 		{
-			free_nodes();
 			free(path);
+			free_nodes();
+			close(data()->fd_out);
+			//close(cmds->fd[0]);
 			write(2, "Command not found\n", 18);
 			exit(1);
 		}

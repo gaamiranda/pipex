@@ -36,24 +36,27 @@ char *check_command(char *path, char *cmd)
 	int		i;
 	char	**env_possible;
 	char	*temp;
+	char	*hold;
 
 	i = 0;
 	if (access(cmd, X_OK) == 0)
 		return cmd;
 	env_possible = ft_split(path, ':');
+	hold = ft_strjoin(env_possible[i], cmd);
 	while(env_possible[i])
 	{
 		temp = ft_strjoin(env_possible[i], cmd);
 		if (access(temp, X_OK) == 0)
 		{
 			free_matrix(env_possible);
+			free(hold);
 			return temp;
 		}
 		free(temp);
 		i++;
 	}
 	free_matrix(env_possible);
-	return NULL;
+	return hold;
 }
 
 void	free_nodes()
