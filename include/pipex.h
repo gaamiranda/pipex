@@ -23,7 +23,7 @@ typedef struct s_data {
 char		**ft_split(char *str, char c);
 char		*ft_strjoin(char *s1, char *s2);
 t_data	*data(void);
-void	check_args(int argc, char **argv, char **envp);
+void	check_args(int argc, char **argv, char **envp, int help);
 size_t	ft_strlen(char *str);
 int	ft_strncmp(char *s1, char *s2, int n);
 t_process *new_node(char *str);

@@ -63,7 +63,7 @@ char **here_doc(int *argc, char **argv)
 	int	fd;
 
 	temp = NULL;
-	fd = open("/tmp/temp_in", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	fd = open("/tmp/temp_in", O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		write(1, "Could not create file in tmp\n", 29);

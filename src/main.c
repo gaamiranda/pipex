@@ -100,7 +100,7 @@ int main(int argc, char **argv, char **envp)
 		argv = here_doc(&argc, argv);
 		help = 1;
 	}
-	check_args(argc, argv, envp);
+	check_args(argc, argv, envp, help);
 	get_path(envp);
 	data()->cmds = get_commands(argc, argv);
 	exec(data()->cmds->next, data()->cmds->fd[0], 
