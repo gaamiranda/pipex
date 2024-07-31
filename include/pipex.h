@@ -30,4 +30,7 @@ t_process *new_node(char *str);
 void	list_add(t_process **head, t_process *to_add);
 char *check_command(char *path, char *cmd);
 void	free_nodes();
+char **here_doc(int *argc, char **argv);
+char	*get_next_line(int fd);
+void	free_matrix(char **matrix);
 #endif

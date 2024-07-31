@@ -91,8 +91,15 @@ void	exec(t_process *cmds, int in, int out, char **envp)
 int main(int argc, char **argv, char **envp)
 {
 	int		i;
+	int		help;
 	
 	i = 1;
+	help = 0;
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		argv = here_doc(&argc, argv);
+		help = 1;
+	}
 	check_args(argc, argv, envp);
 	get_path(envp);
 	data()->cmds = get_commands(argc, argv);
@@ -104,4 +111,6 @@ int main(int argc, char **argv, char **envp)
 		i++;
 	}
 	free_nodes();
+	if (help)
+		free_matrix(argv);
 }
