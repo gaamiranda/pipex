@@ -38,7 +38,7 @@ static char **new_argv(int argc, char **argv)
 	char **new;
 
 	i = 0;
-	new = (char **)malloc(sizeof(char *) * argc);
+	new = (char **)malloc(sizeof(char *) * (argc + 1));
 	if (!new)
 		return NULL;
 	while(argv[i])
@@ -53,6 +53,7 @@ static char **new_argv(int argc, char **argv)
 			new[i] = ft_strdup(argv[i]);
 		i++;
 	}
+	new[argc] = NULL;
 	return new;
 }
 
@@ -79,5 +80,6 @@ char **here_doc(int *argc, char **argv)
 	}
 	free(temp);
 	*argc -= 1;
+	close(fd);
 	return (new_argv(*argc, argv));
 }
