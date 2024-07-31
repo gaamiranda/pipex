@@ -7,6 +7,12 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
+typedef enum e_errors{
+	NOENV,
+	INVALIDARGC,
+	ERROROUTFILE,
+}	t_errors;
+
 typedef struct s_process{
 	int					fd[2];
 	char				**coms_array;
