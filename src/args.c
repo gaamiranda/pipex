@@ -13,7 +13,7 @@ static void	write_exit(t_errors err)
 
 void	check_args(int argc, char **argv, char **envp, int help)
 {
-	if (!envp)
+	if (!(*envp))
 		write_exit(NOENV);
 	if (argc < 5)
 		write_exit(INVALIDARGC);
