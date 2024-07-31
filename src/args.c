@@ -8,6 +8,7 @@ static void	write_exit(t_errors err)
 		write(2, "Invalid argc\n", 13);
 	else if (err == 2)
 		write(2, "Error with outfile\n", 19);
+	exit(1);
 }
 
 void	check_args(int argc, char **argv, char **envp, int help)
