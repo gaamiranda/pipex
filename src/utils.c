@@ -42,7 +42,7 @@ char *check_command(char *path, char *cmd)
 
 	i = 0;
 	if (access(cmd, X_OK) == 0)
-		return cmd;
+		return ft_strjoin("", cmd);
 	env_possible = ft_split(path, ':');
 	hold = ft_strjoin(env_possible[i], cmd);
 	while(env_possible[i])
