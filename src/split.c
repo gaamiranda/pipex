@@ -12,7 +12,7 @@
 
 #include "../include/pipex.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int help)
 {
 	int		size;
 	int		i;
@@ -23,7 +23,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	size = ft_strlen(s1) + ft_strlen(s2);
-	ptr = (char *)malloc(sizeof(char) * (size + 2));
+	ptr = (char *)malloc(sizeof(char) * (size + 1 + help));
 	if (ptr == NULL)
 		return (NULL);
 	while (s1[i])
@@ -31,7 +31,8 @@ char	*ft_strjoin(char *s1, char *s2)
 		ptr[i] = s1[i];
 		i++;
 	}
-	ptr[i++] = '/';
+	if (help == 1)
+		ptr[i++] = '/';
 	while (s2[j])
 		ptr[i++] = s2[j++];
 	ptr[i] = '\0';

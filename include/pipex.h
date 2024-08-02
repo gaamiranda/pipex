@@ -27,7 +27,7 @@ typedef struct s_data {
 }	t_data;
 
 char		**ft_split(char *str, char c);
-char		*ft_strjoin(char *s1, char *s2);
+char		*ft_strjoin(char *s1, char *s2, int help);
 t_data	*data(void);
 void	check_args(int argc, char **argv, char **envp, int help);
 size_t	ft_strlen(char *str);

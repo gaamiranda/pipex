@@ -42,12 +42,12 @@ char *check_command(char *path, char *cmd)
 
 	i = 0;
 	if (access(cmd, X_OK) == 0)
-		return ft_strjoin("", cmd);
+		return ft_strjoin("", cmd, 0);
 	env_possible = ft_split(path, ':');
-	hold = ft_strjoin(env_possible[i], cmd);
+	hold = ft_strjoin(env_possible[i], cmd, 1);
 	while(env_possible[i])
 	{
-		temp = ft_strjoin(env_possible[i], cmd);
+		temp = ft_strjoin(env_possible[i], cmd, 1);
 		if (access(temp, X_OK) == 0)
 		{
 			free_matrix(env_possible);
@@ -58,7 +58,8 @@ char *check_command(char *path, char *cmd)
 		i++;
 	}
 	free_matrix(env_possible);
-	return hold;
+	free(hold);
+	return ft_strjoin("", cmd, 0);
 }
 
 void	free_nodes()
