@@ -9,6 +9,8 @@ t_process *new_node(char *str)
 		return NULL;
 	new->fd[0] = -1;
 	new->fd[1] = -1;
+	new->fd_in = -1;
+	new->fd_out = -1;
 	new->next = NULL;
 	new->coms_array = ft_split(str, ' ');
 	return new;

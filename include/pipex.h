@@ -13,9 +13,13 @@ typedef enum e_errors{
 	ERROROUTFILE,
 }	t_errors;
 
-typedef struct s_process{
+typedef struct s_process
+{
 	int					fd[2];
 	char				**coms_array;
+	int					fd_in;
+	int					fd_out;
+	char				*path;
 	struct s_process	*next;
 }	t_process;
 

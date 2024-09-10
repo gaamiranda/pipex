@@ -47,18 +47,22 @@ t_process *get_commands(int argc, char **argv)
 			temp->fd[0] = data()->fd_in;
 		else if (i == argc - 2)
 			temp->fd[1] = data()->fd_out;
-		else
-		{
-			if (pipe(temp->fd) == -1)
-			{
-				write(1, "Error creating pipe\n", 20);
-				exit(1);
-			}
-		}
 		list_add(&head, temp);
 	}
+	if (head)
+		head->fd_in = data()->fd_in;
+	if (temp)
+		temp->fd_out = data()->fd_out;
 	return head;
 }
+
+void ft_close(int *fd)
+{
+	if (*fd > 1)
+		close(*fd);
+	*fd = -1;
+}
+
 
 void	exec(t_process *cmds, int in, int out, char **envp)
 {
@@ -68,47 +72,67 @@ void	exec(t_process *cmds, int in, int out, char **envp)
 	if (fork() == 0)
 	{
 		dup2(in, STDIN_FILENO);
+		ft_close(&in);
 		dup2(out, STDOUT_FILENO);
-		close(in);
-		close(out);
+		ft_close(&out);
 		if (execve(path, cmds->coms_array, envp) == -1)
 		{
 			free(path);
 			free_nodes();
-			close(data()->fd_out);
-			//close(cmds->fd[0]);
 			write(2, "Command not found\n", 18);
-			exit(1);
+			exit(127);
 		}
 	}
-	close(in);
-	close(out);
+	ft_close(&in);
+	ft_close(&out);
 	free(path);
-	if (cmds->next)
-		exec(cmds->next, cmds->fd[0], cmds->next->fd[1], envp);
 }
 
 int main(int argc, char **argv, char **envp)
 {
 	int		i;
 	int		help;
-	
+	t_process *cmd;
+	int in = 0;
+	int out = 1;
+
 	i = 1;
 	help = 0;
-	if (!ft_strncmp(argv[1], "here_doc", 8))
-	{
-		argv = here_doc(&argc, argv);
-		help = 1;
-	}
+	// if (!ft_strncmp(argv[1], "here_doc", 8))
+	// {
+	// 	argv = here_doc(&argc, argv);
+	// 	help = 1;
+	// }
 	check_args(argc, argv, envp, help);
 	get_path(envp);
 	data()->cmds = get_commands(argc, argv);
-	exec(data()->cmds->next, data()->cmds->fd[0], 
-	data()->cmds->next->fd[1], envp);
-	while (i < argc - 2)
+	cmd = data()->cmds;
+	while (cmd)
+	{
+		if (cmd->next)
+		{	
+			pipe(cmd->fd);
+			out = cmd->fd[1];
+		}
+		if (cmd->fd_in != -1)
+		{
+			ft_close(&in);
+			in = cmd->fd_in;
+		}
+		if (cmd->fd_out != -1)
+		{
+			ft_close(&out);
+			out = cmd->fd_out;
+		}
+		exec(cmd, in, out, envp);
+		in = cmd->fd[0];
+		cmd = cmd ->next;
+	}
+	cmd = data()->cmds;
+	while (cmd)
 	{
 		wait(NULL);
-		i++;
+		cmd = cmd ->next;
 	}
 	free_nodes();
 	if (help)
